@@ -15,13 +15,19 @@ class ViewController: UIViewController,UITextFieldDelegate {
     
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-       let code = textField.text
+        let code = textField.text
         let urls = "https://openlibrary.org/api/books?jscmd=data&format=json&bibkeys=ISBN:\(code)"
         let url = NSURL(string:urls)
-        let datos:NSData?=NSData(contentsOfURL: url!)
+        if let datos:NSData? = NSData(contentsOfURL: url!)
+        {
         let texto = NSString(data:datos!,encoding:NSUTF8StringEncoding)
         txtResult.text=texto!
-        return true;
+        }
+        else
+        {
+        txtResult.text="Error accesing de URL"
+        }
+        textField.resignFirstResponder()
+        return true
     }
 }
-
